@@ -1,0 +1,73 @@
+﻿@model LinaMovies.Web.ViewModels.Film.EditMovieViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>@Html.DisplayFor(model => model.Movie.Title), @Html.DisplayFor(model => model.Movie.Format.Name)</h2>
+
+<div>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.AltTitle)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.AltTitle)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Released)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Released)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.RunningTimeInMinutes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.RunningTimeInMinutes) minuter
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Format)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Format.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Genre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Genre.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Movie.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Movie.Description)
+        </dd>
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Tillbaka till listan", "Index", null, new { @class = "btn btn-primary" })
+    @Html.ActionLink("Ändra", "Edit", new { id = Model.Movie.Id }, new { @class = "btn btn-warning" })
+    @Html.ActionLink("Ta bort film", "Delete", new { id = Model.Movie.Id }, new { @class = "btn btn-danger" })
+</p>
