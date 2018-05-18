@@ -47,6 +47,7 @@ namespace LinaMovies.Web.Controllers
             return View("Create");
         }
 
+        [HttpGet]
         public ActionResult Details(int? id)
         {
             var movie = _db.Movies.Include(g => g.Genre).SingleOrDefault(m => m.Id == id);
@@ -138,3 +139,4 @@ namespace LinaMovies.Web.Controllers
         }
     }
 }
+//giggety
