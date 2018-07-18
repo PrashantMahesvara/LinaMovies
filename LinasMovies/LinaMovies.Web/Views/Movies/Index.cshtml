@@ -28,6 +28,9 @@
             <th style="text-align: center">
                 Format
             </th>
+            <th>
+                Ta bort
+            </th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -54,12 +57,12 @@
                 columns: [
                     {
                         data: "",
-                        render: function (data, type, movie, movies, genre, format) {
+                        render: function (data, type, movie,  genre, format) {
                             return "<p style='text-align: center'><a href='/movies/details/" + movie.Id + "'>" + movie.Title + "</a></p>";
                         }
                     },
                     {
-                        render: function (data, type, movie, movies, genre, format) {
+                        render: function (data, type, movie,  genre, format) {
               
 
                             return "<p style='text-align: center'> " + movie.RunningTimeInMinutes + " min </p>";
@@ -67,38 +70,45 @@
                     },
                     {
                         data: "genre",
-                        render: function (data, type, movie, movies, genre, format) {
+                        render: function (data, type, movie,  genre, format) {
                             return "<p style='text-align: center'> " + movie.Genre.Name + "</p>";
                         }
                     },
                     {
-                        render: function (data, type, movie, movies, genre, format) {
+                        render: function (data, type, movie,  genre, format) {
                             return  movie.Animated ?  '<input type="checkbox" checked disabled />' : '<input type="checkbox" disabled  />';
                         }
                     },
                     {
                         data: "format",
-                        render: function (data, type, movie, movies, genre, format) {
+                        render: function (data, type, movie,  genre, format) {
                             return "<p style='text-align: center'> " + movie.Format.Name + "</p>";
+                        }
+                    },
+                    {
+                        data: "id",
+                        render: function (data, type, movie, genre, format) {
+                            return "<button class='btn-link js-delete' data-movie-id=" + movie.Id + ">Delete</button>";
                         }
                     }
                 ]
             });
 
-        $("#details").on("click", ".js-delete", function (data, type, movie, movies, genre, format) {
+        $("#details").on("click", ".js-delete", function (data, type, movie, genre, format) {
                 var button = $(this);
 
-                if (confirm("Vill du verkligen ta bort denna filmen?  ")) {
+            if (confirm("really?")) {
                     $.ajax({
-                        url: "/api/movies/" ,
+                        url: "/api/movies/" + button.attr("data-movie-id"),
                         method: "DELETE",
-                        success: function (data, type, movie, movies, genre, format) {
-                            //button.parents("tr").remove().draw();
+                        success: function (data, type, movie, genre, format) {
                             table.row(button.parents("tr")).remove().draw();
+                            console.log("success!");
                         }
                     });
-                }
+            }
+                });
             });
-        });
+
     </script>
 }

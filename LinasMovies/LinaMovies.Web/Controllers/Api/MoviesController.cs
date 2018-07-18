@@ -20,7 +20,9 @@ namespace LinaMovies.Web.Controllers.Api
                 .Include(f => f.Format)
                 .ToList();
 
-            return Ok(movieDtos);
+            var listOfMovies = _db.Movies.Include(m => m.Format).Include(m => m.Genre).ToList();
+
+            return Ok(listOfMovies);
         }
    
         public MovieDto GetMovie(int id)
