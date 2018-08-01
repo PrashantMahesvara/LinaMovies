@@ -7,7 +7,6 @@
 
 <p>
     @Html.ActionLink("Lägg till ny film", "Create", null, new { @class = "btn btn-primary" })
-
 </p>
 
 <table class="table table-bordered table-hover" id="details">
@@ -42,73 +41,74 @@
     $(document).ready(function () {
         console.log("ready!");
 
-            var table = $("#details").DataTable({
-                autoFill: true,
-                "oLanguage": {
-                    "sSearch": "Sök "
-                },
-                "columnDefs": [{
-                    "className": "dt-center", "targets": "_all"
-                }],
-                ajax: {
-                    url: "/api/movies",
-                    dataSrc: ""
-                },
-                columns: [
-                    {
-                        data: "",
-                        render: function (data, type, movie,  genre, format) {
-                            return "<p style='text-align: center'><a href='/movies/details/" + movie.Id + "'>" + movie.Title + "</a></p>";
-                        }
-                    },
-                    {
-                        render: function (data, type, movie,  genre, format) {
-              
-
-                            return "<p style='text-align: center'> " + movie.RunningTimeInMinutes + " min </p>";
-                        }
-                    },
-                    {
-                        data: "genre",
-                        render: function (data, type, movie,  genre, format) {
-                            return "<p style='text-align: center'> " + movie.Genre.Name + "</p>";
-                        }
-                    },
-                    {
-                        render: function (data, type, movie,  genre, format) {
-                            return  movie.Animated ?  '<input type="checkbox" checked disabled />' : '<input type="checkbox" disabled  />';
-                        }
-                    },
-                    {
-                        data: "format",
-                        render: function (data, type, movie,  genre, format) {
-                            return "<p style='text-align: center'> " + movie.Format.Name + "</p>";
-                        }
-                    },
-                    {
-                        data: "id",
-                        render: function (data, type, movie, genre, format) {
-                            return "<button class='btn-link js-delete' data-movie-id=" + movie.Id + ">Delete</button>";
-                        }
+        var table = $("#details").DataTable({
+            autoFill: true,
+            "oLanguage": {
+                "sSearch": "Sök "
+            },
+            "columnDefs": [{
+                "className": "dt-center", "targets": "_all"
+            }],
+            ajax: {
+                url: "/api/movies",
+                dataSrc: ""
+            },
+            columns: [
+                {
+                    data: "",
+                    render: function (data, type, movie, genre, format) {
+                        return "<p style='text-align: center'><a href='/movies/details/" + movie.Id + "'>" + movie.Title + "</a></p>";
                     }
-                ]
-            });
+                },
+                {
+                    render: function (data, type, movie, genre, format) {
+
+
+                        return "<p style='text-align: center'> " + movie.RunningTimeInMinutes + " min </p>";
+                    }
+                },
+                {
+                    data: "genre",
+                    render: function (data, type, movie, genre, format) {
+                        return "<p style='text-align: center'> " + movie.Genre.Name + "</p>";
+                    }
+                },
+                {
+                    render: function (data, type, movie, genre, format) {
+                        return movie.Animated ? '<input type="checkbox" checked disabled />' : '<input type="checkbox" disabled  />';
+                    }
+                },
+                {
+                    data: "format",
+                    render: function (data, type, movie, genre, format) {
+                        return "<p style='text-align: center'> " + movie.Format.Name + "</p>";
+                    }
+                },
+                {
+                    data: "id",
+                    render: function (data, type, movie, genre, format) {
+                        return "<button class='btn-link js-delete' data-movie-id=" + movie.Id + ">Delete</button>";
+                    }
+                }
+            ]
+        });
 
         $("#details").on("click", ".js-delete", function (data, type, movie, genre, format) {
-                var button = $(this);
+            var button = $(this);
 
-            if (confirm("really?")) {
+            bootbox.confirm("really?", function (result) {
+                if (result) {
                     $.ajax({
-                        url: "/api/movies/" + button.attr("data-movie-id"),
+                        url: "api/movies/" + button.attr("data-movie-id"),
                         method: "DELETE",
                         success: function (data, type, movie, genre, format) {
                             table.row(button.parents("tr")).remove().draw();
                             console.log("success!");
                         }
                     });
-            }
-                });
+                }
             });
-
+        });
+    });
     </script>
 }
